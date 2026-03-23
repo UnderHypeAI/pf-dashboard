@@ -1,52 +1,374 @@
 {
   "_meta": {
-    "last_synced": "2026-03-23T22:30:00+00:00",
-    "sheet_id": "1yK2hBwfF4RcAxInxHaGvPJixy-BzdFcTqTzm0F_nKi8"
+    "last_synced": "2026-03-23T23:25:09.786926+00:00",
+    "sheet_id": "1yK2hBwfF4RcAxInxHaGvPJixy-BzdFcTqTzm0F_nKi8",
+    "version": 2
   },
-  "btc_price": 70893,
-  "accounts": {
-    "summary": {
-      "total_net_worth": 0,
-      "total_cash": 0,
-      "total_investments": 0,
-      "total_bitcoin_usd": 0,
-      "total_bitcoin_btc": 0,
-      "total_crypto_other": 0
+  "btc_price": 70406,
+  "assets": {
+    "total_net_worth": 0.0,
+    "total_btc_units": 0.0,
+    "by_category": {
+      "Cash & Banking": 0.0,
+      "Equities": 0.0,
+      "Retirement": 0.0,
+      "Bitcoin": 0.0,
+      "Business Equity": 0.0,
+      "Real Estate": 0.0
     },
     "detail": [
-      {"account": "Checking", "institution": "Bank of America", "type": "Bank", "category": "Cash", "balance": 0, "currency": "USD", "last_updated": "", "notes": "Primary checking"},
-      {"account": "Savings", "institution": "Bank of America", "type": "Bank", "category": "Cash", "balance": 0, "currency": "USD", "last_updated": "", "notes": ""},
-      {"account": "Business Checking", "institution": "Mercury", "type": "Bank", "category": "Cash", "balance": 0, "currency": "USD", "last_updated": "", "notes": "UnderHype LLC"},
-      {"account": "Brokerage", "institution": "WeBull", "type": "Brokerage", "category": "Investments", "balance": 0, "currency": "USD", "last_updated": "", "notes": "Stocks & ETFs"},
-      {"account": "IRA / 401k", "institution": "Fidelity", "type": "Retirement", "category": "Investments", "balance": 0, "currency": "USD", "last_updated": "", "notes": "Retirement accounts"},
-      {"account": "Bitcoin", "institution": "River", "type": "Crypto", "category": "Bitcoin", "balance": 0, "currency": "BTC", "last_updated": "", "notes": "BTC accumulation"},
-      {"account": "Bitcoin", "institution": "Strike", "type": "Crypto", "category": "Bitcoin", "balance": 0, "currency": "BTC", "last_updated": "", "notes": "Lightning + BTC"},
-      {"account": "Bitcoin", "institution": "CashApp", "type": "Crypto", "category": "Bitcoin", "balance": 0, "currency": "BTC", "last_updated": "", "notes": ""},
-      {"account": "Crypto", "institution": "Gemini", "type": "Crypto", "category": "Crypto", "balance": 0, "currency": "USD", "last_updated": "", "notes": "Multi-asset crypto"},
-      {"account": "Self-Custody BTC", "institution": "Cold Storage", "type": "Crypto", "category": "Bitcoin", "balance": 0, "currency": "BTC", "last_updated": "", "notes": "Hardware wallet"}
+      {
+        "asset": "Checking",
+        "category": "Cash & Banking",
+        "institution": "Bank of America",
+        "ticker": "",
+        "units": 0.0,
+        "unit_price": 0.0,
+        "value": 0.0,
+        "currency": "USD"
+      },
+      {
+        "asset": "Savings",
+        "category": "Cash & Banking",
+        "institution": "Bank of America",
+        "ticker": "",
+        "units": 0.0,
+        "unit_price": 0.0,
+        "value": 0.0,
+        "currency": "USD"
+      },
+      {
+        "asset": "Business Checking",
+        "category": "Cash & Banking",
+        "institution": "Mercury",
+        "ticker": "",
+        "units": 0.0,
+        "unit_price": 0.0,
+        "value": 0.0,
+        "currency": "USD"
+      },
+      {
+        "asset": "Brokerage",
+        "category": "Equities",
+        "institution": "WeBull",
+        "ticker": "",
+        "units": 0.0,
+        "unit_price": 0.0,
+        "value": 0.0,
+        "currency": "USD"
+      },
+      {
+        "asset": "IRA / 401k",
+        "category": "Retirement",
+        "institution": "Fidelity",
+        "ticker": "",
+        "units": 0.0,
+        "unit_price": 0.0,
+        "value": 0.0,
+        "currency": "USD"
+      },
+      {
+        "asset": "MSTR",
+        "category": "Equities",
+        "institution": "WeBull",
+        "ticker": "MSTR",
+        "units": 0.0,
+        "unit_price": 0.0,
+        "value": 0.0,
+        "currency": "USD"
+      },
+      {
+        "asset": "STRF",
+        "category": "Equities",
+        "institution": "WeBull",
+        "ticker": "STRF",
+        "units": 0.0,
+        "unit_price": 0.0,
+        "value": 0.0,
+        "currency": "USD"
+      },
+      {
+        "asset": "STRK",
+        "category": "Equities",
+        "institution": "WeBull",
+        "ticker": "STRK",
+        "units": 0.0,
+        "unit_price": 0.0,
+        "value": 0.0,
+        "currency": "USD"
+      },
+      {
+        "asset": "Bitcoin",
+        "category": "Bitcoin",
+        "institution": "River",
+        "ticker": "BTC",
+        "units": 0.0,
+        "unit_price": 70406,
+        "value": 0.0,
+        "currency": "BTC"
+      },
+      {
+        "asset": "Bitcoin",
+        "category": "Bitcoin",
+        "institution": "Strike",
+        "ticker": "BTC",
+        "units": 0.0,
+        "unit_price": 70406,
+        "value": 0.0,
+        "currency": "BTC"
+      },
+      {
+        "asset": "Bitcoin",
+        "category": "Bitcoin",
+        "institution": "CashApp",
+        "ticker": "BTC",
+        "units": 0.0,
+        "unit_price": 70406,
+        "value": 0.0,
+        "currency": "BTC"
+      },
+      {
+        "asset": "Bitcoin",
+        "category": "Bitcoin",
+        "institution": "Cold Storage",
+        "ticker": "BTC",
+        "units": 0.0,
+        "unit_price": 70406,
+        "value": 0.0,
+        "currency": "BTC"
+      },
+      {
+        "asset": "Mining Fleet",
+        "category": "Bitcoin",
+        "institution": "Melear Mining Co.",
+        "ticker": "",
+        "units": 18.0,
+        "unit_price": 0.0,
+        "value": 0.0,
+        "currency": "USD"
+      },
+      {
+        "asset": "UnderHype LLC",
+        "category": "Business Equity",
+        "institution": "",
+        "ticker": "",
+        "units": 0.0,
+        "unit_price": 0.0,
+        "value": 0.0,
+        "currency": "USD"
+      },
+      {
+        "asset": "4EVR.ink",
+        "category": "Business Equity",
+        "institution": "",
+        "ticker": "",
+        "units": 0.0,
+        "unit_price": 0.0,
+        "value": 0.0,
+        "currency": "USD"
+      },
+      {
+        "asset": "Patient Gangster",
+        "category": "Business Equity",
+        "institution": "",
+        "ticker": "",
+        "units": 0.0,
+        "unit_price": 0.0,
+        "value": 0.0,
+        "currency": "USD"
+      },
+      {
+        "asset": "Black Canyon Jiu Jitsu",
+        "category": "Business Equity",
+        "institution": "",
+        "ticker": "",
+        "units": 0.0,
+        "unit_price": 0.0,
+        "value": 0.0,
+        "currency": "USD"
+      },
+      {
+        "asset": "Home - 2685 Cherry Cir",
+        "category": "Real Estate",
+        "institution": "",
+        "ticker": "",
+        "units": 0.0,
+        "unit_price": 0.0,
+        "value": 0.0,
+        "currency": "USD"
+      }
     ]
   },
-  "cashflow": {
-    "current_month": {
-      "income": 0,
-      "expenses": 0,
-      "net": 0,
-      "savings_rate": 0
-    },
-    "by_category": {},
-    "recent_transactions": []
+  "income_assets": {
+    "fixed": [
+      {
+        "asset": "STRF",
+        "institution": "WeBull",
+        "ticker": "STRF",
+        "value": 0.0,
+        "yield": 10.0,
+        "annual": 0.0,
+        "monthly": 0.0
+      },
+      {
+        "asset": "STRK",
+        "institution": "WeBull",
+        "ticker": "STRK",
+        "value": 0.0,
+        "yield": 8.0,
+        "annual": 0.0,
+        "monthly": 0.0
+      },
+      {
+        "asset": "Savings Account",
+        "institution": "Bank of America",
+        "ticker": "",
+        "value": 0.0,
+        "yield": 0.0,
+        "annual": 0.0,
+        "monthly": 0.0
+      }
+    ],
+    "variable": [
+      {
+        "asset": "Mining Fleet",
+        "institution": "Melear Mining Co.",
+        "ticker": "BTC",
+        "value": 0.0,
+        "yield": 0.0,
+        "annual": 0.0,
+        "monthly": 0.0
+      },
+      {
+        "asset": "Dividend Stocks",
+        "institution": "WeBull",
+        "ticker": "",
+        "value": 0.0,
+        "yield": 0.0,
+        "annual": 0.0,
+        "monthly": 0.0
+      },
+      {
+        "asset": "Dividend Stocks",
+        "institution": "Fidelity",
+        "ticker": "",
+        "value": 0.0,
+        "yield": 0.0,
+        "annual": 0.0,
+        "monthly": 0.0
+      }
+    ],
+    "total_fixed_annual": 0.0,
+    "total_variable_annual": 0.0
   },
-  "income": {
-    "current_month": 0,
-    "ytd": 0,
-    "by_source": {},
-    "recurring_monthly": 0
+  "business_income": {
+    "by_business": {
+      "UnderHype AI": {
+        "revenue": 0.0,
+        "expenses": 0.0,
+        "net": 0.0,
+        "types": {
+          "MRR": {
+            "revenue": 0.0,
+            "expenses": 0.0,
+            "net": 0.0
+          },
+          "Project Revenue": {
+            "revenue": 0.0,
+            "expenses": 0.0,
+            "net": 0.0
+          }
+        }
+      },
+      "4EVR.ink": {
+        "revenue": 0.0,
+        "expenses": 0.0,
+        "net": 0.0,
+        "types": {
+          "Product Revenue": {
+            "revenue": 0.0,
+            "expenses": 0.0,
+            "net": 0.0
+          }
+        }
+      },
+      "Patient Gangster": {
+        "revenue": 0.0,
+        "expenses": 0.0,
+        "net": 0.0,
+        "types": {
+          "Product Revenue": {
+            "revenue": 0.0,
+            "expenses": 0.0,
+            "net": 0.0
+          }
+        }
+      },
+      "Melear Mining Co.": {
+        "revenue": 0.0,
+        "expenses": 0.0,
+        "net": 0.0,
+        "types": {
+          "Mining Revenue": {
+            "revenue": 0.0,
+            "expenses": 0.0,
+            "net": 0.0
+          }
+        }
+      },
+      "Black Canyon Jiu Jitsu": {
+        "revenue": 0.0,
+        "expenses": 0.0,
+        "net": 0.0,
+        "types": {
+          "Membership Revenue": {
+            "revenue": 0.0,
+            "expenses": 0.0,
+            "net": 0.0
+          }
+        }
+      },
+      "Bitcoin Navigator": {
+        "revenue": 0.0,
+        "expenses": 0.0,
+        "net": 0.0,
+        "types": {
+          "Publication Revenue": {
+            "revenue": 0.0,
+            "expenses": 0.0,
+            "net": 0.0
+          }
+        }
+      },
+      "Emmett Weekly": {
+        "revenue": 0.0,
+        "expenses": 0.0,
+        "net": 0.0,
+        "types": {
+          "Publication Revenue": {
+            "revenue": 0.0,
+            "expenses": 0.0,
+            "net": 0.0
+          }
+        }
+      }
+    },
+    "total_monthly_revenue": 0.0,
+    "total_monthly_expenses": 0.0,
+    "total_monthly_net": 0.0
+  },
+  "cashflow": {
+    "income": 0,
+    "expenses": 0,
+    "net": 0,
+    "savings_rate": 0,
+    "recent_transactions": []
   },
   "trends": {
     "months": [],
     "income": [],
     "expenses": [],
-    "net_cash_flow": [],
+    "net": [],
     "net_worth": []
   },
   "forecast": {
@@ -56,9 +378,9 @@
     "projected_net_worth": []
   },
   "goals": {
-    "emergency_fund_target": 10000,
-    "emergency_fund_current": 0,
-    "monthly_savings_goal": 2000,
+    "emergency_fund_target": 10000.0,
+    "emergency_fund_current": 0.0,
+    "monthly_savings_goal": 2000.0,
     "monthly_savings_actual": 0
   }
 }
