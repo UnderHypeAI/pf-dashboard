@@ -1,0 +1,1124 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<!--
+   ______                            __
+  / ____/___  ____ ___  ____  __  __/ /____  _____
+ / /   / __ \/ __ `__ \/ __ \/ / / / __/ _ \/ ___/
+/ /___/ /_/ / / / / / / /_/ / /_/ / /_/  __/ /
+\____/\____/_/ /_/ /_/ .___/\__,_/\__/\___/_/
+                    /_/
+        Created with Perplexity Computer
+        https://www.perplexity.ai/computer
+-->
+
+<!-- Perplexity Computer Attribution — SEO Meta Tags -->
+<meta name="generator" content="Perplexity Computer">
+<meta name="author" content="Perplexity Computer">
+<meta property="og:see_also" content="https://www.perplexity.ai/computer">
+<link rel="author" href="https://www.perplexity.ai/computer">
+
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Personal Finance Dashboard</title>
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<style>
+  /* ─── Reset & Base ─── */
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --bg: #0c0c0e;
+    --card: #141416;
+    --card-border: #232326;
+    --text-primary: #e8e4df;
+    --text-secondary: #9a9590;
+    --text-faint: #5a5754;
+    --accent-pf: #34d399;
+    --accent-btc: #F7931A;
+    --accent-invest: #818cf8;
+    --accent-cash: #38bdf8;
+    --green: #34d399;
+    --red: #f87171;
+    --yellow: #fbbf24;
+    --radius: 10px;
+    --radius-sm: 6px;
+    --font-body: system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
+    --font-mono: 'JetBrains Mono', 'SF Mono', 'Cascadia Code', 'Fira Code', ui-monospace, monospace;
+  }
+
+  html { font-size: 15px; }
+
+  body {
+    font-family: var(--font-body);
+    background: var(--bg);
+    color: var(--text-primary);
+    line-height: 1.5;
+    min-height: 100vh;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  /* ─── Layout ─── */
+  .container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 2rem 1.5rem 3rem;
+  }
+
+  /* ─── Header ─── */
+  .header {
+    margin-bottom: 2rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+  }
+  .header h1 {
+    font-size: 1.6rem;
+    font-weight: 700;
+    letter-spacing: -0.02em;
+    color: var(--text-primary);
+  }
+  .header .subtitle {
+    font-size: 0.85rem;
+    color: var(--text-secondary);
+    margin-top: 0.15rem;
+  }
+  .header .sync-time {
+    font-size: 0.75rem;
+    color: var(--text-faint);
+    font-family: var(--font-mono);
+  }
+
+  /* ─── Cards ─── */
+  .card {
+    background: var(--card);
+    border: 1px solid var(--card-border);
+    border-radius: var(--radius);
+    padding: 1.25rem 1.5rem;
+    margin-bottom: 1.25rem;
+  }
+
+  .section-title {
+    font-size: 0.7rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: var(--text-secondary);
+    margin-bottom: 1rem;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+  }
+  .section-title .accent-dot {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    display: inline-block;
+    flex-shrink: 0;
+  }
+
+  /* ─── Net Worth Banner ─── */
+  .nw-banner {
+    background: var(--card);
+    border: 1px solid var(--card-border);
+    border-radius: var(--radius);
+    padding: 1.5rem 2rem;
+    margin-bottom: 1.25rem;
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+  }
+  .nw-banner::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 2px;
+    background: linear-gradient(90deg, var(--accent-pf), var(--accent-btc), var(--accent-invest));
+  }
+  .nw-banner .nw-label {
+    font-size: 0.7rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    color: var(--text-secondary);
+    margin-bottom: 0.3rem;
+  }
+  .nw-banner .nw-value {
+    font-family: var(--font-mono);
+    font-size: 2.4rem;
+    font-weight: 700;
+    color: var(--text-primary);
+    font-variant-numeric: tabular-nums lining-nums;
+    line-height: 1.2;
+  }
+  .nw-banner .nw-change {
+    font-size: 0.8rem;
+    font-family: var(--font-mono);
+    margin-top: 0.25rem;
+  }
+  .nw-change.positive { color: var(--green); }
+  .nw-change.negative { color: var(--red); }
+
+  /* ─── Allocation Buckets ─── */
+  .alloc-row {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 0.75rem;
+    margin-bottom: 1.25rem;
+  }
+  .alloc-card {
+    background: var(--card);
+    border: 1px solid var(--card-border);
+    border-radius: var(--radius);
+    padding: 1rem 1.25rem;
+    position: relative;
+    overflow: hidden;
+  }
+  .alloc-card::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 2px;
+  }
+  .alloc-card.cash::before { background: var(--accent-cash); }
+  .alloc-card.investments::before { background: var(--accent-invest); }
+  .alloc-card.bitcoin::before { background: var(--accent-btc); }
+  .alloc-card.crypto::before { background: var(--accent-pf); }
+
+  .alloc-card .alloc-label {
+    font-size: 0.7rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    color: var(--text-secondary);
+    margin-bottom: 0.35rem;
+  }
+  .alloc-card .alloc-value {
+    font-family: var(--font-mono);
+    font-size: 1.3rem;
+    font-weight: 700;
+    font-variant-numeric: tabular-nums lining-nums;
+    line-height: 1.2;
+  }
+  .alloc-card .alloc-pct {
+    font-size: 0.68rem;
+    color: var(--text-faint);
+    margin-top: 0.15rem;
+    font-family: var(--font-mono);
+  }
+
+  /* ─── KPI Row ─── */
+  .kpi-row {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+    gap: 0.75rem;
+    margin-bottom: 1.25rem;
+  }
+  .kpi {
+    background: rgba(255,255,255,0.02);
+    border: 1px solid var(--card-border);
+    border-radius: var(--radius-sm);
+    padding: 0.85rem 1rem;
+  }
+  .kpi .kpi-val {
+    font-family: var(--font-mono);
+    font-size: 1.3rem;
+    font-weight: 700;
+    font-variant-numeric: tabular-nums lining-nums;
+    line-height: 1.2;
+  }
+  .kpi .kpi-label {
+    font-size: 0.68rem;
+    color: var(--text-secondary);
+    margin-top: 0.2rem;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+  }
+
+  /* ─── Tables ─── */
+  .mini-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 0.75rem;
+  }
+  .mini-table th {
+    text-align: left;
+    font-weight: 600;
+    color: var(--text-secondary);
+    border-bottom: 1px solid var(--card-border);
+    padding: 0.5rem 0.6rem;
+    font-size: 0.68rem;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+  }
+  .mini-table th.right, .mini-table td.right { text-align: right; }
+  .mini-table td {
+    padding: 0.45rem 0.6rem;
+    border-bottom: 1px solid rgba(255,255,255,0.03);
+    color: var(--text-primary);
+  }
+  .mini-table tr:last-child td { border-bottom: none; }
+  .mini-table .inst { color: var(--text-secondary); }
+  .mini-table .mono {
+    font-family: var(--font-mono);
+    font-variant-numeric: tabular-nums lining-nums;
+  }
+
+  /* ─── Chart Container ─── */
+  .chart-container {
+    position: relative;
+    width: 100%;
+    height: 220px;
+  }
+  .chart-container.tall { height: 280px; }
+  .chart-container.donut {
+    max-width: 200px;
+    height: 200px;
+    margin: 0 auto;
+  }
+
+  /* ─── Grid helpers ─── */
+  .two-col {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1rem;
+  }
+  .three-col {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: 1rem;
+  }
+
+  /* ─── Category Bars ─── */
+  .cat-bars { display: flex; flex-direction: column; gap: 0.35rem; }
+  .cat-row {
+    display: flex;
+    align-items: center;
+    gap: 0.6rem;
+    font-size: 0.75rem;
+  }
+  .cat-row .cat-label {
+    width: 110px;
+    text-align: right;
+    color: var(--text-secondary);
+    flex-shrink: 0;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+  .cat-row .bar-track {
+    flex: 1;
+    height: 16px;
+    background: rgba(255,255,255,0.03);
+    border-radius: 3px;
+    overflow: hidden;
+  }
+  .cat-row .bar-fill {
+    height: 100%;
+    border-radius: 3px;
+    transition: width 0.6s ease;
+  }
+  .cat-row .cat-amt {
+    width: 65px;
+    text-align: right;
+    font-family: var(--font-mono);
+    font-variant-numeric: tabular-nums;
+    color: var(--text-secondary);
+    font-size: 0.72rem;
+    flex-shrink: 0;
+  }
+
+  /* ─── Progress bar ─── */
+  .progress-wrap {
+    margin-top: 0.5rem;
+  }
+  .progress-label {
+    display: flex;
+    justify-content: space-between;
+    font-size: 0.72rem;
+    color: var(--text-secondary);
+    margin-bottom: 0.3rem;
+  }
+  .progress-track {
+    height: 8px;
+    background: rgba(255,255,255,0.06);
+    border-radius: 4px;
+    overflow: hidden;
+  }
+  .progress-fill {
+    height: 100%;
+    border-radius: 4px;
+    transition: width 0.6s ease;
+  }
+
+  /* ─── Awaiting Data ─── */
+  .awaiting {
+    padding: 1.5rem;
+    text-align: center;
+    color: var(--text-faint);
+    font-size: 0.8rem;
+    font-style: italic;
+  }
+
+  /* ─── BTC Price Ticker ─── */
+  .btc-ticker {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+    background: rgba(247,147,26,0.08);
+    border: 1px solid rgba(247,147,26,0.2);
+    border-radius: 100px;
+    padding: 0.2rem 0.65rem;
+    font-size: 0.72rem;
+    font-family: var(--font-mono);
+    color: var(--accent-btc);
+    font-variant-numeric: tabular-nums;
+  }
+  .btc-ticker .btc-icon {
+    font-size: 0.85rem;
+    font-weight: 700;
+  }
+
+  /* ─── Footer ─── */
+  footer {
+    border-top: 1px solid var(--card-border);
+    margin-top: 1rem;
+    padding-top: 1.25rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 0.75rem;
+    font-size: 0.72rem;
+    color: var(--text-faint);
+  }
+  footer a {
+    color: var(--text-secondary);
+    text-decoration: none;
+    transition: color 0.2s;
+  }
+  footer a:hover { color: var(--text-primary); }
+
+  /* ─── Responsive ─── */
+  @media (max-width: 768px) {
+    html { font-size: 14px; }
+    .alloc-row { grid-template-columns: repeat(2, 1fr); }
+    .kpi-row { grid-template-columns: repeat(2, 1fr); }
+    .two-col, .three-col { grid-template-columns: 1fr; }
+    .header { flex-direction: column; align-items: flex-start; }
+    .cat-row .cat-label { width: 80px; font-size: 0.68rem; }
+    .nw-banner .nw-value { font-size: 1.8rem; }
+  }
+  @media (max-width: 480px) {
+    .container { padding: 1.25rem 1rem 2rem; }
+    .alloc-row { grid-template-columns: 1fr 1fr; }
+  }
+</style>
+</head>
+<body>
+<!-- PASSWORD GATE -->
+<div id="password-overlay" style="
+  position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+  background: #0a0a0a; z-index: 99999;
+  display: flex; align-items: center; justify-content: center;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+">
+  <div style="text-align: center; max-width: 360px; padding: 20px;">
+    <div style="font-size: 14px; letter-spacing: 3px; text-transform: uppercase; color: #666; margin-bottom: 24px;">Dashboard Access</div>
+    <input id="pw-input" type="password" placeholder="Enter password" autocomplete="off" style="
+      width: 100%; padding: 14px 18px; font-size: 16px;
+      background: #151515; border: 1px solid #333; border-radius: 8px;
+      color: #fff; outline: none; text-align: center;
+      box-sizing: border-box;
+    " />
+    <div id="pw-error" style="color: #ff4444; font-size: 13px; margin-top: 12px; opacity: 0; transition: opacity 0.3s;">Incorrect password</div>
+    <div style="color: #444; font-size: 12px; margin-top: 24px;">Press Enter to continue</div>
+  </div>
+</div>
+<script>
+(function() {
+  var k = 'dashboard_auth', h = 'SmVzc2ljYUxlaWdo';
+  if (sessionStorage.getItem(k) === h) {
+    document.getElementById('password-overlay').style.display = 'none';
+    return;
+  }
+  var inp = document.getElementById('pw-input');
+  var err = document.getElementById('pw-error');
+  inp.focus();
+  inp.addEventListener('keydown', function(e) {
+    if (e.key === 'Enter') {
+      if (btoa(inp.value) === h) {
+        sessionStorage.setItem(k, h);
+        document.getElementById('password-overlay').style.display = 'none';
+      } else {
+        err.style.opacity = '1';
+        inp.value = '';
+        inp.style.borderColor = '#ff4444';
+        setTimeout(function() { err.style.opacity = '0'; inp.style.borderColor = '#333'; }, 2000);
+      }
+    }
+  });
+})();
+</script>
+<!-- END PASSWORD GATE -->
+
+<div class="container" id="app">
+
+  <!-- Header -->
+  <div class="header">
+    <div>
+      <h1>Personal Finance</h1>
+      <div class="subtitle">Accounts, Cash Flow & Forecast</div>
+    </div>
+    <div style="display:flex;align-items:center;gap:1rem;">
+      <span class="btc-ticker" id="btcTicker"><span class="btc-icon">₿</span> <span id="btcPrice">—</span></span>
+      <div class="sync-time" id="syncTime">Loading...</div>
+    </div>
+  </div>
+
+  <!-- Net Worth Banner -->
+  <div class="nw-banner" id="nwBanner">
+    <div class="nw-label">Total Net Worth</div>
+    <div class="nw-value" id="nwValue">$0</div>
+    <div class="nw-change" id="nwChange"></div>
+  </div>
+
+  <!-- Allocation Buckets -->
+  <div class="alloc-row" id="allocRow">
+    <div class="alloc-card cash">
+      <div class="alloc-label">Cash</div>
+      <div class="alloc-value" id="allocCash" style="color:var(--accent-cash)">$0</div>
+      <div class="alloc-pct" id="allocCashPct">0%</div>
+    </div>
+    <div class="alloc-card investments">
+      <div class="alloc-label">Investments</div>
+      <div class="alloc-value" id="allocInvest" style="color:var(--accent-invest)">$0</div>
+      <div class="alloc-pct" id="allocInvestPct">0%</div>
+    </div>
+    <div class="alloc-card bitcoin">
+      <div class="alloc-label">Bitcoin</div>
+      <div class="alloc-value" id="allocBtc" style="color:var(--accent-btc)">$0</div>
+      <div class="alloc-pct" id="allocBtcPct">0% · 0 BTC</div>
+    </div>
+    <div class="alloc-card crypto">
+      <div class="alloc-label">Other Crypto</div>
+      <div class="alloc-value" id="allocCrypto" style="color:var(--accent-pf)">$0</div>
+      <div class="alloc-pct" id="allocCryptoPct">0%</div>
+    </div>
+  </div>
+
+  <!-- Cash Flow KPIs -->
+  <div class="card">
+    <div class="section-title">
+      <span class="accent-dot" style="background:var(--accent-pf)"></span>
+      Cash Flow — Current Month
+    </div>
+    <div class="kpi-row" id="cashflowKpis">
+      <div class="kpi"><div class="kpi-val" style="color:var(--green)" id="cfIncome">$0</div><div class="kpi-label">Income</div></div>
+      <div class="kpi"><div class="kpi-val" style="color:var(--red)" id="cfExpenses">$0</div><div class="kpi-label">Expenses</div></div>
+      <div class="kpi"><div class="kpi-val" id="cfNet">$0</div><div class="kpi-label">Net Cash Flow</div></div>
+      <div class="kpi"><div class="kpi-val" id="cfSavingsRate">0%</div><div class="kpi-label">Savings Rate</div></div>
+      <div class="kpi"><div class="kpi-val" style="color:var(--accent-pf)" id="cfYtdIncome">$0</div><div class="kpi-label">YTD Income</div></div>
+      <div class="kpi"><div class="kpi-val" style="color:var(--accent-btc)" id="cfRecurring">$0</div><div class="kpi-label">Recurring Monthly</div></div>
+    </div>
+  </div>
+
+  <!-- Two-col: Expense Breakdown + Allocation Donut -->
+  <div class="two-col">
+    <!-- Expense Breakdown -->
+    <div class="card">
+      <div class="section-title">
+        <span class="accent-dot" style="background:var(--red)"></span>
+        Expenses by Category
+      </div>
+      <div id="expenseBars"><div class="awaiting">Add transactions to see breakdown</div></div>
+    </div>
+
+    <!-- Asset Allocation Donut -->
+    <div class="card">
+      <div class="section-title">
+        <span class="accent-dot" style="background:var(--accent-invest)"></span>
+        Asset Allocation
+      </div>
+      <div style="display:flex;align-items:center;gap:1.5rem;">
+        <div class="chart-container donut"><canvas id="allocChart"></canvas></div>
+        <div id="allocLegend"></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Cash Flow Trend Chart -->
+  <div class="card">
+    <div class="section-title">
+      <span class="accent-dot" style="background:var(--accent-pf)"></span>
+      Cash Flow Trend
+    </div>
+    <div class="chart-container tall"><canvas id="cashflowChart"></canvas></div>
+  </div>
+
+  <!-- Net Worth Trend Chart -->
+  <div class="card">
+    <div class="section-title">
+      <span class="accent-dot" style="background:var(--accent-invest)"></span>
+      Net Worth Over Time
+    </div>
+    <div class="chart-container tall"><canvas id="nwChart"></canvas></div>
+  </div>
+
+  <!-- Forecast Chart -->
+  <div class="card">
+    <div class="section-title">
+      <span class="accent-dot" style="background:var(--yellow)"></span>
+      Forecast — Next 6 Months
+    </div>
+    <div class="chart-container tall"><canvas id="forecastChart"></canvas></div>
+  </div>
+
+  <!-- Goals -->
+  <div class="card">
+    <div class="section-title">
+      <span class="accent-dot" style="background:var(--accent-pf)"></span>
+      Financial Goals
+    </div>
+    <div class="two-col">
+      <div>
+        <div style="font-size:0.78rem;color:var(--text-primary);font-weight:600;margin-bottom:0.25rem;">Emergency Fund</div>
+        <div class="progress-wrap">
+          <div class="progress-label">
+            <span id="efCurrent">$0</span>
+            <span id="efTarget">$10,000</span>
+          </div>
+          <div class="progress-track">
+            <div class="progress-fill" id="efBar" style="width:0%;background:var(--accent-pf)"></div>
+          </div>
+        </div>
+      </div>
+      <div>
+        <div style="font-size:0.78rem;color:var(--text-primary);font-weight:600;margin-bottom:0.25rem;">Monthly Savings Goal</div>
+        <div class="progress-wrap">
+          <div class="progress-label">
+            <span id="sgActual">$0</span>
+            <span id="sgTarget">$2,000</span>
+          </div>
+          <div class="progress-track">
+            <div class="progress-fill" id="sgBar" style="width:0%;background:var(--accent-cash)"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Accounts Detail Table -->
+  <div class="card">
+    <div class="section-title">
+      <span class="accent-dot" style="background:var(--accent-cash)"></span>
+      All Accounts
+    </div>
+    <table class="mini-table" id="accountsTable">
+      <thead>
+        <tr>
+          <th>Account</th>
+          <th>Institution</th>
+          <th>Type</th>
+          <th class="right">Balance</th>
+          <th class="right">Updated</th>
+        </tr>
+      </thead>
+      <tbody id="accountsBody">
+        <tr><td colspan="5" class="awaiting" style="text-align:center">Loading...</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- Recent Transactions -->
+  <div class="card">
+    <div class="section-title">
+      <span class="accent-dot" style="background:var(--text-secondary)"></span>
+      Recent Transactions
+    </div>
+    <table class="mini-table" id="txTable">
+      <thead>
+        <tr>
+          <th>Date</th>
+          <th>Description</th>
+          <th>Category</th>
+          <th>Account</th>
+          <th class="right">Amount</th>
+        </tr>
+      </thead>
+      <tbody id="txBody">
+        <tr><td colspan="5" class="awaiting" style="text-align:center">Add transactions to your sheet to see them here</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- Income by Source -->
+  <div class="card">
+    <div class="section-title">
+      <span class="accent-dot" style="background:var(--green)"></span>
+      Income by Source
+    </div>
+    <div id="incomeBars"><div class="awaiting">Add income entries to see breakdown</div></div>
+  </div>
+
+  <!-- Footer -->
+  <footer>
+    <div>
+      <a href="https://docs.google.com/spreadsheets/d/1yK2hBwfF4RcAxInxHaGvPJixy-BzdFcTqTzm0F_nKi8/edit" target="_blank">Open Sheet</a>
+    </div>
+    <a href="https://www.perplexity.ai/computer" target="_blank" rel="noopener noreferrer">Created with Perplexity Computer</a>
+  </footer>
+
+</div>
+
+<script>
+(function() {
+  'use strict';
+
+  // ─── Utilities ───
+  const $ = (sel) => document.querySelector(sel);
+  const fmtUSD = (n) => {
+    if (n == null || isNaN(n)) return '$0';
+    const abs = Math.abs(n);
+    const sign = n < 0 ? '-' : '';
+    if (abs >= 1000000) return sign + '$' + (abs / 1000000).toFixed(1) + 'M';
+    if (abs >= 1000) return sign + '$' + abs.toLocaleString('en-US', { minimumFractionDigits: 0, maximumFractionDigits: 0 });
+    return sign + '$' + abs.toFixed(abs % 1 === 0 ? 0 : 2);
+  };
+  const fmtBTC = (n) => {
+    if (n == null || isNaN(n)) return '0 BTC';
+    return n.toFixed(8) + ' BTC';
+  };
+  const fmtPct = (n) => {
+    if (n == null || isNaN(n)) return '0%';
+    return n.toFixed(1) + '%';
+  };
+
+  let DATA = null;
+  let allocChartInst = null;
+  let cashflowChartInst = null;
+  let nwChartInst = null;
+  let forecastChartInst = null;
+
+  const CHART_DEFAULTS = {
+    responsive: true,
+    maintainAspectRatio: false,
+    plugins: {
+      legend: { display: false },
+      tooltip: {
+        backgroundColor: '#1c1c1e',
+        titleColor: '#e8e4df',
+        bodyColor: '#9a9590',
+        borderColor: '#232326',
+        borderWidth: 1,
+        cornerRadius: 6,
+        padding: 10,
+      }
+    },
+    scales: {
+      x: {
+        grid: { color: 'rgba(255,255,255,0.03)' },
+        ticks: { color: '#5a5754', font: { size: 11 } },
+        border: { color: 'rgba(255,255,255,0.06)' }
+      },
+      y: {
+        grid: { color: 'rgba(255,255,255,0.03)' },
+        ticks: {
+          color: '#5a5754',
+          font: { size: 11 },
+          callback: function(v) {
+            if (Math.abs(v) >= 1000000) return '$' + (v/1000000).toFixed(1) + 'M';
+            if (Math.abs(v) >= 1000) return '$' + (v/1000).toFixed(0) + 'k';
+            return '$' + v;
+          }
+        },
+        border: { color: 'rgba(255,255,255,0.06)' }
+      }
+    },
+    animation: { duration: 800, easing: 'easeOutQuart' }
+  };
+
+  // ─── Load Data ───
+  async function loadData() {
+    try {
+      const resp = await fetch('data.json?' + Date.now());
+      DATA = await resp.json();
+      render();
+    } catch (e) {
+      console.warn('Could not load data.json:', e);
+      $('#syncTime').textContent = 'Data not available';
+    }
+  }
+
+  // ─── Render All ───
+  function render() {
+    if (!DATA) return;
+
+    // Sync time
+    const synced = DATA._meta?.last_synced;
+    if (synced) {
+      const d = new Date(synced);
+      $('#syncTime').textContent = 'Synced: ' + d.toLocaleString('en-US', {
+        month: 'short', day: 'numeric', hour: 'numeric', minute: '2-digit', hour12: true
+      });
+    } else {
+      $('#syncTime').textContent = 'Not yet synced';
+    }
+
+    // BTC price
+    if (DATA.btc_price > 0) {
+      $('#btcPrice').textContent = '$' + DATA.btc_price.toLocaleString('en-US', { maximumFractionDigits: 0 });
+    }
+
+    renderNetWorth();
+    renderAllocation();
+    renderCashFlow();
+    renderExpenseBars();
+    renderAllocChart();
+    renderCashFlowChart();
+    renderNWChart();
+    renderForecastChart();
+    renderGoals();
+    renderAccountsTable();
+    renderTransactions();
+    renderIncomeBars();
+  }
+
+  // ─── Net Worth Banner ───
+  function renderNetWorth() {
+    const s = DATA.accounts?.summary || {};
+    const nw = s.total_net_worth || 0;
+    $('#nwValue').textContent = fmtUSD(nw);
+
+    // Month-over-month change from trends
+    const nwArr = DATA.trends?.net_worth || [];
+    if (nwArr.length >= 2) {
+      const prev = nwArr[nwArr.length - 2];
+      const diff = nw - prev;
+      const pct = prev > 0 ? (diff / prev * 100) : 0;
+      const el = $('#nwChange');
+      el.textContent = (diff >= 0 ? '+' : '') + fmtUSD(diff) + ' (' + (diff >= 0 ? '+' : '') + pct.toFixed(1) + '%) vs last month';
+      el.className = 'nw-change ' + (diff >= 0 ? 'positive' : 'negative');
+    }
+  }
+
+  // ─── Allocation Buckets ───
+  function renderAllocation() {
+    const s = DATA.accounts?.summary || {};
+    const nw = s.total_net_worth || 1;
+
+    $('#allocCash').textContent = fmtUSD(s.total_cash || 0);
+    $('#allocCashPct').textContent = fmtPct((s.total_cash || 0) / nw * 100);
+
+    $('#allocInvest').textContent = fmtUSD(s.total_investments || 0);
+    $('#allocInvestPct').textContent = fmtPct((s.total_investments || 0) / nw * 100);
+
+    $('#allocBtc').textContent = fmtUSD(s.total_bitcoin_usd || 0);
+    $('#allocBtcPct').textContent = fmtPct((s.total_bitcoin_usd || 0) / nw * 100) + ' · ' + (s.total_bitcoin_btc || 0).toFixed(4) + ' BTC';
+
+    $('#allocCrypto').textContent = fmtUSD(s.total_crypto_other || 0);
+    $('#allocCryptoPct').textContent = fmtPct((s.total_crypto_other || 0) / nw * 100);
+  }
+
+  // ─── Cash Flow KPIs ───
+  function renderCashFlow() {
+    const cf = DATA.cashflow?.current_month || {};
+    const inc = DATA.income || {};
+    $('#cfIncome').textContent = fmtUSD(cf.income || 0);
+    $('#cfExpenses').textContent = fmtUSD(cf.expenses || 0);
+
+    const net = cf.net || 0;
+    const netEl = $('#cfNet');
+    netEl.textContent = fmtUSD(net);
+    netEl.style.color = net >= 0 ? 'var(--green)' : 'var(--red)';
+
+    $('#cfSavingsRate').textContent = fmtPct(cf.savings_rate || 0);
+    $('#cfYtdIncome').textContent = fmtUSD(inc.ytd || 0);
+    $('#cfRecurring').textContent = fmtUSD(inc.recurring_monthly || 0);
+  }
+
+  // ─── Expense Bars ───
+  function renderExpenseBars() {
+    const cats = DATA.cashflow?.by_category || {};
+    const el = $('#expenseBars');
+    const entries = Object.entries(cats).sort((a, b) => b[1] - a[1]);
+
+    if (entries.length === 0) {
+      el.innerHTML = '<div class="awaiting">Add transactions to see breakdown</div>';
+      return;
+    }
+
+    const max = Math.max(...entries.map(e => e[1]), 1);
+    el.innerHTML = '<div class="cat-bars">' + entries.map(([cat, amt]) => {
+      const pct = (amt / max) * 100;
+      return `<div class="cat-row">
+        <span class="cat-label">${cat}</span>
+        <div class="bar-track"><div class="bar-fill" style="width:${pct}%;background:var(--red);opacity:0.7"></div></div>
+        <span class="cat-amt">${fmtUSD(amt)}</span>
+      </div>`;
+    }).join('') + '</div>';
+  }
+
+  // ─── Allocation Donut ───
+  function renderAllocChart() {
+    const s = DATA.accounts?.summary || {};
+    const ctx = document.getElementById('allocChart');
+    if (!ctx) return;
+
+    const labels = ['Cash', 'Investments', 'Bitcoin', 'Other Crypto'];
+    const values = [s.total_cash || 0, s.total_investments || 0, s.total_bitcoin_usd || 0, s.total_crypto_other || 0];
+    const colors = ['#38bdf8', '#818cf8', '#F7931A', '#34d399'];
+
+    if (allocChartInst) allocChartInst.destroy();
+    allocChartInst = new Chart(ctx, {
+      type: 'doughnut',
+      data: {
+        labels,
+        datasets: [{ data: values, backgroundColor: colors, borderColor: '#141416', borderWidth: 2 }]
+      },
+      options: {
+        responsive: true,
+        maintainAspectRatio: false,
+        cutout: '65%',
+        plugins: {
+          legend: { display: false },
+          tooltip: {
+            backgroundColor: '#1c1c1e',
+            titleColor: '#e8e4df',
+            bodyColor: '#9a9590',
+            borderColor: '#232326',
+            borderWidth: 1,
+            cornerRadius: 6,
+            padding: 10,
+            callbacks: {
+              label: (ctx) => ctx.label + ': ' + fmtUSD(ctx.raw)
+            }
+          }
+        },
+        animation: { duration: 800, easing: 'easeOutQuart' }
+      }
+    });
+
+    // Custom legend
+    const leg = document.getElementById('allocLegend');
+    if (leg) {
+      const total = values.reduce((a, b) => a + b, 0) || 1;
+      leg.innerHTML = labels.map((l, i) => `
+        <div style="display:flex;align-items:center;gap:0.5rem;font-size:0.75rem;margin-bottom:0.4rem;">
+          <span style="width:10px;height:10px;border-radius:2px;background:${colors[i]};flex-shrink:0;"></span>
+          <span style="color:var(--text-secondary)">${l}</span>
+          <span style="font-family:var(--font-mono);color:var(--text-primary);margin-left:auto;font-variant-numeric:tabular-nums">${fmtPct(values[i]/total*100)}</span>
+        </div>
+      `).join('');
+    }
+  }
+
+  // ─── Cash Flow Trend Chart ───
+  function renderCashFlowChart() {
+    const t = DATA.trends || {};
+    const ctx = document.getElementById('cashflowChart');
+    if (!ctx || !t.months || t.months.length === 0) return;
+
+    if (cashflowChartInst) cashflowChartInst.destroy();
+    cashflowChartInst = new Chart(ctx, {
+      type: 'bar',
+      data: {
+        labels: t.months,
+        datasets: [
+          { label: 'Income', data: t.income || [], backgroundColor: 'rgba(52,211,153,0.7)', borderRadius: 3 },
+          { label: 'Expenses', data: (t.expenses || []).map(v => -Math.abs(v)), backgroundColor: 'rgba(248,113,113,0.7)', borderRadius: 3 },
+          { label: 'Net', data: t.net_cash_flow || [], type: 'line', borderColor: '#e8e4df', backgroundColor: 'transparent', borderWidth: 2, pointRadius: 3, pointBackgroundColor: '#e8e4df', tension: 0.3 }
+        ]
+      },
+      options: {
+        ...CHART_DEFAULTS,
+        plugins: {
+          ...CHART_DEFAULTS.plugins,
+          legend: {
+            display: true,
+            position: 'top',
+            align: 'end',
+            labels: { color: '#9a9590', usePointStyle: true, pointStyle: 'circle', padding: 15, font: { size: 11 } }
+          }
+        }
+      }
+    });
+  }
+
+  // ─── Net Worth Chart ───
+  function renderNWChart() {
+    const t = DATA.trends || {};
+    const ctx = document.getElementById('nwChart');
+    if (!ctx || !t.months || t.months.length === 0) return;
+
+    if (nwChartInst) nwChartInst.destroy();
+    nwChartInst = new Chart(ctx, {
+      type: 'line',
+      data: {
+        labels: t.months,
+        datasets: [{
+          label: 'Net Worth',
+          data: t.net_worth || [],
+          borderColor: '#818cf8',
+          backgroundColor: 'rgba(129,140,248,0.08)',
+          borderWidth: 2.5,
+          pointRadius: 4,
+          pointBackgroundColor: '#818cf8',
+          fill: true,
+          tension: 0.35
+        }]
+      },
+      options: CHART_DEFAULTS
+    });
+  }
+
+  // ─── Forecast Chart ───
+  function renderForecastChart() {
+    const f = DATA.forecast || {};
+    const ctx = document.getElementById('forecastChart');
+    if (!ctx || !f.months || f.months.length === 0) {
+      ctx.parentElement.innerHTML = '<div class="awaiting">Add forecast data to your sheet to see projections</div>';
+      return;
+    }
+
+    if (forecastChartInst) forecastChartInst.destroy();
+    forecastChartInst = new Chart(ctx, {
+      type: 'line',
+      data: {
+        labels: f.months,
+        datasets: [
+          {
+            label: 'Projected Net Worth',
+            data: f.projected_net_worth || [],
+            borderColor: '#fbbf24',
+            backgroundColor: 'rgba(251,191,36,0.06)',
+            borderWidth: 2.5,
+            borderDash: [6, 3],
+            pointRadius: 4,
+            pointBackgroundColor: '#fbbf24',
+            fill: true,
+            tension: 0.35
+          },
+          {
+            label: 'Projected Income',
+            data: f.projected_income || [],
+            borderColor: 'rgba(52,211,153,0.6)',
+            borderWidth: 1.5,
+            pointRadius: 0,
+            tension: 0.35
+          },
+          {
+            label: 'Projected Expenses',
+            data: f.projected_expenses || [],
+            borderColor: 'rgba(248,113,113,0.6)',
+            borderWidth: 1.5,
+            pointRadius: 0,
+            tension: 0.35
+          }
+        ]
+      },
+      options: {
+        ...CHART_DEFAULTS,
+        plugins: {
+          ...CHART_DEFAULTS.plugins,
+          legend: {
+            display: true,
+            position: 'top',
+            align: 'end',
+            labels: { color: '#9a9590', usePointStyle: true, pointStyle: 'circle', padding: 15, font: { size: 11 } }
+          }
+        }
+      }
+    });
+  }
+
+  // ─── Goals ───
+  function renderGoals() {
+    const g = DATA.goals || {};
+    const efPct = g.emergency_fund_target > 0 ? Math.min(100, (g.emergency_fund_current / g.emergency_fund_target) * 100) : 0;
+    $('#efCurrent').textContent = fmtUSD(g.emergency_fund_current || 0);
+    $('#efTarget').textContent = fmtUSD(g.emergency_fund_target || 10000);
+    $('#efBar').style.width = efPct + '%';
+
+    const sgPct = g.monthly_savings_goal > 0 ? Math.min(100, (g.monthly_savings_actual / g.monthly_savings_goal) * 100) : 0;
+    $('#sgActual').textContent = fmtUSD(g.monthly_savings_actual || 0);
+    $('#sgTarget').textContent = fmtUSD(g.monthly_savings_goal || 2000);
+    $('#sgBar').style.width = sgPct + '%';
+  }
+
+  // ─── Accounts Table ───
+  function renderAccountsTable() {
+    const accts = DATA.accounts?.detail || [];
+    const body = $('#accountsBody');
+    if (accts.length === 0) {
+      body.innerHTML = '<tr><td colspan="5" class="awaiting" style="text-align:center">No accounts</td></tr>';
+      return;
+    }
+
+    body.innerHTML = accts.map(a => {
+      const bal = a.currency === 'BTC'
+        ? a.balance.toFixed(8) + ' BTC'
+        : fmtUSD(a.balance);
+      const updated = a.last_updated || '—';
+      return `<tr>
+        <td>${a.account}</td>
+        <td class="inst">${a.institution}</td>
+        <td class="inst">${a.type}</td>
+        <td class="right mono">${bal}</td>
+        <td class="right inst">${updated}</td>
+      </tr>`;
+    }).join('');
+  }
+
+  // ─── Recent Transactions ───
+  function renderTransactions() {
+    const txs = DATA.cashflow?.recent_transactions || [];
+    const body = $('#txBody');
+    if (txs.length === 0) {
+      body.innerHTML = '<tr><td colspan="5" class="awaiting" style="text-align:center">Add transactions to your sheet</td></tr>';
+      return;
+    }
+
+    body.innerHTML = txs.slice(0, 15).map(t => {
+      const amtColor = t.type === 'income' ? 'var(--green)' : 'var(--red)';
+      const sign = t.type === 'income' ? '+' : '-';
+      return `<tr>
+        <td class="inst">${t.date}</td>
+        <td>${t.description}</td>
+        <td class="inst">${t.category}</td>
+        <td class="inst">${t.account}</td>
+        <td class="right mono" style="color:${amtColor}">${sign}${fmtUSD(Math.abs(t.amount))}</td>
+      </tr>`;
+    }).join('');
+  }
+
+  // ─── Income Bars ───
+  function renderIncomeBars() {
+    const sources = DATA.income?.by_source || {};
+    const el = $('#incomeBars');
+    const entries = Object.entries(sources).sort((a, b) => b[1] - a[1]);
+
+    if (entries.length === 0) {
+      el.innerHTML = '<div class="awaiting">Add income entries to see breakdown</div>';
+      return;
+    }
+
+    const max = Math.max(...entries.map(e => e[1]), 1);
+    el.innerHTML = '<div class="cat-bars">' + entries.map(([src, amt]) => {
+      const pct = (amt / max) * 100;
+      return `<div class="cat-row">
+        <span class="cat-label">${src}</span>
+        <div class="bar-track"><div class="bar-fill" style="width:${pct}%;background:var(--green);opacity:0.7"></div></div>
+        <span class="cat-amt">${fmtUSD(amt)}</span>
+      </div>`;
+    }).join('') + '</div>';
+  }
+
+  // ─── Init ───
+  loadData();
+
+})();
+</script>
+</body>
+</html>

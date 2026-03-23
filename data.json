@@ -1,0 +1,64 @@
+{
+  "_meta": {
+    "last_synced": "2026-03-23T22:30:00+00:00",
+    "sheet_id": "1yK2hBwfF4RcAxInxHaGvPJixy-BzdFcTqTzm0F_nKi8"
+  },
+  "btc_price": 70893,
+  "accounts": {
+    "summary": {
+      "total_net_worth": 0,
+      "total_cash": 0,
+      "total_investments": 0,
+      "total_bitcoin_usd": 0,
+      "total_bitcoin_btc": 0,
+      "total_crypto_other": 0
+    },
+    "detail": [
+      {"account": "Checking", "institution": "Bank of America", "type": "Bank", "category": "Cash", "balance": 0, "currency": "USD", "last_updated": "", "notes": "Primary checking"},
+      {"account": "Savings", "institution": "Bank of America", "type": "Bank", "category": "Cash", "balance": 0, "currency": "USD", "last_updated": "", "notes": ""},
+      {"account": "Business Checking", "institution": "Mercury", "type": "Bank", "category": "Cash", "balance": 0, "currency": "USD", "last_updated": "", "notes": "UnderHype LLC"},
+      {"account": "Brokerage", "institution": "WeBull", "type": "Brokerage", "category": "Investments", "balance": 0, "currency": "USD", "last_updated": "", "notes": "Stocks & ETFs"},
+      {"account": "IRA / 401k", "institution": "Fidelity", "type": "Retirement", "category": "Investments", "balance": 0, "currency": "USD", "last_updated": "", "notes": "Retirement accounts"},
+      {"account": "Bitcoin", "institution": "River", "type": "Crypto", "category": "Bitcoin", "balance": 0, "currency": "BTC", "last_updated": "", "notes": "BTC accumulation"},
+      {"account": "Bitcoin", "institution": "Strike", "type": "Crypto", "category": "Bitcoin", "balance": 0, "currency": "BTC", "last_updated": "", "notes": "Lightning + BTC"},
+      {"account": "Bitcoin", "institution": "CashApp", "type": "Crypto", "category": "Bitcoin", "balance": 0, "currency": "BTC", "last_updated": "", "notes": ""},
+      {"account": "Crypto", "institution": "Gemini", "type": "Crypto", "category": "Crypto", "balance": 0, "currency": "USD", "last_updated": "", "notes": "Multi-asset crypto"},
+      {"account": "Self-Custody BTC", "institution": "Cold Storage", "type": "Crypto", "category": "Bitcoin", "balance": 0, "currency": "BTC", "last_updated": "", "notes": "Hardware wallet"}
+    ]
+  },
+  "cashflow": {
+    "current_month": {
+      "income": 0,
+      "expenses": 0,
+      "net": 0,
+      "savings_rate": 0
+    },
+    "by_category": {},
+    "recent_transactions": []
+  },
+  "income": {
+    "current_month": 0,
+    "ytd": 0,
+    "by_source": {},
+    "recurring_monthly": 0
+  },
+  "trends": {
+    "months": [],
+    "income": [],
+    "expenses": [],
+    "net_cash_flow": [],
+    "net_worth": []
+  },
+  "forecast": {
+    "months": [],
+    "projected_income": [],
+    "projected_expenses": [],
+    "projected_net_worth": []
+  },
+  "goals": {
+    "emergency_fund_target": 10000,
+    "emergency_fund_current": 0,
+    "monthly_savings_goal": 2000,
+    "monthly_savings_actual": 0
+  }
+}
