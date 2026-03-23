@@ -438,8 +438,8 @@
 </div>
 <script>
 (function() {
-  var k = 'dashboard_auth', h = 'SmVzc2ljYUxlaWdo';
-  if (sessionStorage.getItem(k) === h) {
+  var h = 'SmVzc2ljYUxlaWdo';
+  if (window.__dashAuth === h) {
     document.getElementById('password-overlay').style.display = 'none';
     return;
   }
@@ -449,7 +449,7 @@
   inp.addEventListener('keydown', function(e) {
     if (e.key === 'Enter') {
       if (btoa(inp.value) === h) {
-        sessionStorage.setItem(k, h);
+        window.__dashAuth = h;
         document.getElementById('password-overlay').style.display = 'none';
       } else {
         err.style.opacity = '1';
