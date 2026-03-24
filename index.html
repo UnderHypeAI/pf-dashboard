@@ -135,6 +135,38 @@
   @media(max-width:480px){
     .container{padding:1.25rem 1rem 2rem}
   }
+
+  .back-to-master {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 13px;
+    font-weight: 500;
+    letter-spacing: 0.3px;
+    color: var(--text-primary);
+    text-decoration: none;
+    padding: 8px 16px;
+    border-radius: 8px;
+    border: 1px solid var(--card-border);
+    background: var(--card);
+    transition: all 0.25s ease;
+    margin-bottom: 12px;
+  }
+  .back-to-master:hover {
+    background: var(--card-hover, rgba(255,255,255,0.06));
+    border-color: var(--accent);
+    color: var(--accent-light, var(--accent));
+    transform: translateX(-2px);
+  }
+  .back-to-master svg {
+    width: 14px;
+    height: 14px;
+    transition: transform 0.25s ease;
+  }
+  .back-to-master:hover svg {
+    transform: translateX(-3px);
+  }
+
 </style>
 </head>
 <body>
@@ -167,7 +199,7 @@
   <!-- Header -->
   <div class="header">
     <div>
-      <a href="https://underhypeai.github.io/master-dashboard/" class="back-link" target="_blank">&larr; Portfolio Dashboard</a>
+      <a href="https://underhypeai.github.io/master-dashboard/" class="back-to-master"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 12H5"/><path d="M12 19l-7-7 7-7"/></svg> Portfolio Dashboard</a>
       <h1>Personal Finance</h1>
       <div class="subtitle">Assets, Income & Cash Flow</div>
     </div>
@@ -292,7 +324,7 @@
 
   <footer>
     <div class="footer-links">
-      <a href="https://underhypeai.github.io/master-dashboard/" target="_blank">&larr; Portfolio Dashboard</a>
+      <a href="https://underhypeai.github.io/master-dashboard/" class="back-to-master" style="margin-bottom:0;"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 12H5"/><path d="M12 19l-7-7 7-7"/></svg> Portfolio Dashboard</a>
       <a href="https://docs.google.com/spreadsheets/d/1yK2hBwfF4RcAxInxHaGvPJixy-BzdFcTqTzm0F_nKi8/edit" target="_blank">Open Sheet</a>
     </div>
     <a href="https://www.perplexity.ai/computer" target="_blank" rel="noopener noreferrer">Created with Perplexity Computer</a>
